@@ -5977,10 +5977,6 @@ PA_THREAD_FUNC ProcThreadPoll(void *param)
 		}
 	}
 
-#ifdef PA_WASAPI_LOG_TIME_SLOTS
-	startWaitTime = SystemTimer_GetTime(&timer);
-#endif
-
 	// Initialize event & start OUTPUT stream
 	if (stream->out.clientProc)
 	{
@@ -6043,6 +6039,10 @@ PA_THREAD_FUNC ProcThreadPoll(void *param)
 
 	// Notify: state
 	NotifyStateChanged(stream, paWasapiStreamStateThreadStart, ERROR_SUCCESS);
+
+#ifdef PA_WASAPI_LOG_TIME_SLOTS
+	startWaitTime = SystemTimer_GetTime(&timer);
+#endif
 
 	if (!PA_WASAPI__IS_FULLDUPLEX(stream))
 	{
